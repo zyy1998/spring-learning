@@ -1,0 +1,3 @@
+- github 地址：https://github.com/ben-manes/caffeine
+- 文档：https://github.com/ben-manes/caffeine/wiki
+- 教程：https://www.baeldung.com/java-caching-caffeine

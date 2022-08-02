@@ -1,0 +1,8 @@
+### 通过ip地址获取位置信息 https://lbs.qq.com/service/webService/webServiceGuide/webServiceIp
+https://apis.map.qq.com/ws/location/v1/ip?key=4BYBZ-7MT6S-PUAOA-6BNWL-FJUD7-UUFXT&ip=111.206.145.41
+#https://apis.map.qq.com/ws/location/v1/ip?key=4BYBZ-7MT6S-PUAOA-6BNWL-FJUD7-UUFXT&ip=111.206.145.41&sign=f66be83c27e5b989b415d8020515ba30
+#https://apis.map.qq.com/ws/location/v1/ip?key=OB4BZ-D4W3U-B7VVO-4PJWW-6TKDJ-WPB77&ip=111.206.145.41
+
+### 我的key
+#https://apis.map.qq.com/ws/location/v1/ip?key=Y6RBZ-27OWX-V544O-TA6E3-VDXGH-N7B2F&ip=111.206.145.41
+https://apis.map.qq.com/ws/location/v1/ip?key=Y6RBZ-27OWX-V544O-TA6E3-VDXGH-N7B2F
