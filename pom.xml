@@ -11,6 +11,7 @@
     <modules>
         <module>third</module>
         <module>http</module>
+        <module>cloud</module>
     </modules>
 
 </project>
