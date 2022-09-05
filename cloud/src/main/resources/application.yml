@@ -10,6 +10,8 @@ cloud:
       APPID:
       PRIVATE_KEY:
       ALIPAY_PUBLIC_KEY:
+      NOTIFY_URL: your_domain/alipay/callback/return
+      RETURN_URL: your_domain/alipay/callback/notify
   tencent:
     wechat:
       pay:
@@ -21,7 +23,7 @@ cloud:
         NOTIFY_URL:
 spring:
   profiles:
-    active: dev
+    active: sandbox
     logging:
       level:
         root: info

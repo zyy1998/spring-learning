@@ -18,4 +18,6 @@ public class AliPayProperties {
     private String SIGN_TYPE;
     private String FORMAT;
     private String CHARSET;
+    private String RETURN_URL;
+    private String NOTIFY_URL;
 }
