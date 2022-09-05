@@ -2,12 +2,6 @@ package com.github.zyy1998.springlearning.cloud.tencent.wechat.pay;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
-import com.wechat.pay.contrib.apache.httpclient.WechatPayHttpClientBuilder;
-import com.wechat.pay.contrib.apache.httpclient.auth.AutoUpdateCertificatesVerifier;
-import com.wechat.pay.contrib.apache.httpclient.auth.PrivateKeySigner;
-import com.wechat.pay.contrib.apache.httpclient.auth.WechatPay2Credentials;
-import com.wechat.pay.contrib.apache.httpclient.auth.WechatPay2Validator;
-import com.wechat.pay.contrib.apache.httpclient.util.PemUtil;
 import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
@@ -17,41 +11,26 @@ import org.apache.http.util.EntityUtils;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
 
 import java.io.ByteArrayOutputStream;
-import java.io.FileInputStream;
 import java.io.IOException;
-import java.security.PrivateKey;
 
+@SpringBootTest(classes = WechatPayApplication.class)
 public class NativePayTest {
     private CloseableHttpClient httpClient;
-    private String apiV3Key = "";
-    private String mchId = "";
 
-    private String appId = "";
-    private String mchSerialNo = "";
-    private String merchantPrivateKeyPath = "";
+    @Autowired
+    private WechatPayService service;
+    @Autowired
+    private WechatPayProperties properties;
+    private String mchId;
 
     @BeforeEach
     public void setup() throws IOException {
-        // 加载商户私钥
-        // @see https://github.com/wechatpay-apiv3/wechatpay-apache-httpclient#%E5%A6%82%E4%BD%95%E5%8A%A0%E8%BD%BD%E5%95%86%E6%88%B7%E7%A7%81%E9%92%A5
-        PrivateKey merchantPrivateKey = PemUtil.loadPrivateKey(
-                new FileInputStream(merchantPrivateKeyPath));
-
-        // 加载平台证书（mchId：商户号,mchSerialNo：商户证书序列号,apiV3Key：V3密钥）
-        AutoUpdateCertificatesVerifier verifier = new AutoUpdateCertificatesVerifier(
-                new WechatPay2Credentials(mchId, new PrivateKeySigner(mchSerialNo, merchantPrivateKey)), apiV3Key.getBytes("utf-8"));
-
-        // 初始化httpClient
-        httpClient = WechatPayHttpClientBuilder.create()
-                .withMerchant(mchId, mchSerialNo, merchantPrivateKey)
-                .withValidator(new WechatPay2Validator(verifier)).build();
-    }
-
-    @Test
-    public void CreateOrder2() {
-        System.out.println("xx");
+        httpClient = service.generateHttpClient();
+        mchId = properties.getMCH_ID();
     }
 
     @Test
@@ -63,12 +42,12 @@ public class NativePayTest {
         ObjectMapper objectMapper = new ObjectMapper();
 
         ObjectNode rootNode = objectMapper.createObjectNode();
-        rootNode.put("mchid", mchId)
-                .put("appid", appId)
+        rootNode.put("mchid", properties.getMCH_ID())
+                .put("appid", properties.getAPP_ID())
                 .put("description", "Image形象店-深圳腾大-QQ公仔")
 //                .put("notify_url", "https://weixin.qq.com/")
-                .put("notify_url", "http://daylight.ga:7002/wechat/callback")
-                .put("out_trade_no", "1217752501201407033233368013");
+                .put("notify_url", properties.getNOTIFY_URL())
+                .put("out_trade_no", "1217752501201407043233368013");
         rootNode.putObject("amount")
                 .put("total", 1);
 
@@ -80,7 +59,6 @@ public class NativePayTest {
         CloseableHttpResponse response = httpClient.execute(httpPost);
         String bodyAsString = EntityUtils.toString(response.getEntity());
         System.out.println(bodyAsString);
-
     }
 
     /**
@@ -111,7 +89,7 @@ public class NativePayTest {
 
         ObjectMapper objectMapper = new ObjectMapper();
         ObjectNode rootNode = objectMapper.createObjectNode();
-        rootNode.put("mchid", mchId);
+        rootNode.put("mchid", properties.getMCH_ID());
         ByteArrayOutputStream bos = new ByteArrayOutputStream();
         objectMapper.writeValue(bos, rootNode);
         httpPost.setEntity(new StringEntity(bos.toString("UTF-8"), "UTF-8"));

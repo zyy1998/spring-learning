@@ -10,6 +10,15 @@ cloud:
       APPID:
       PRIVATE_KEY:
       ALIPAY_PUBLIC_KEY:
+  tencent:
+    wechat:
+      pay:
+        API_V3_KEY:
+        MCH_ID:
+        APP_ID:
+        MCH_SERIAL_NO:
+        MCH_PRIVATE_KEY_PATH:
+        NOTIFY_URL:
 spring:
   profiles:
     active: dev
