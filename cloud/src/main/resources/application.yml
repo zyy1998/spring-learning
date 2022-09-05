@@ -1,2 +1,18 @@
 server:
   port: 8080
+cloud:
+  alibaba:
+    pay:
+      URL: https://openapi.alipay.com/gateway.do
+      SIGN_TYPE: RSA2
+      FORMAT: json
+      CHARSET: utf-8
+      APPID:
+      PRIVATE_KEY:
+      ALIPAY_PUBLIC_KEY:
+spring:
+  profiles:
+    active: dev
+    logging:
+      level:
+        root: info
