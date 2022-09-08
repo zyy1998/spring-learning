@@ -28,6 +28,20 @@
             <artifactId>spring-boot-starter-test</artifactId>
             <version>2.4.10</version>
         </dependency>
+        <!--缓存模块开始-->
+        <!--caffeine模块依赖，本地缓存-->
+        <!-- https://mvnrepository.com/artifact/com.github.ben-manes.caffeine/caffeine -->
+        <dependency>
+            <groupId>com.github.ben-manes.caffeine</groupId>
+            <artifactId>caffeine</artifactId>
+            <version>2.9.3</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-cache</artifactId>
+            <version>2.4.10</version>
+        </dependency>
+        <!--缓存模块结束-->
         <!-- Lombok -->
         <dependency>
             <groupId>org.projectlombok</groupId>

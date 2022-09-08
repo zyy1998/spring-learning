@@ -1,0 +1,5 @@
+- 缓存使用caffeine，可设置的缓存见org.springframework.boot.autoconfigure.cache.CacheProperties
+- https://www.baeldung.com/spring-boot-caffeine-cache
+- http://www.mydlq.club/article/56/
+- https://docs.spring.io/spring-framework/docs/5.3.20/reference/html/integration.html#cache-annotations
+- https://docs.spring.io/spring-boot/docs/2.7.3/reference/html/io.html#io.caching.provider.caffeine
