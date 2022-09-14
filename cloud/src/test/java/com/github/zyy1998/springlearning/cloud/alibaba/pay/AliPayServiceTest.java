@@ -1,12 +1,15 @@
 package com.github.zyy1998.springlearning.cloud.alibaba.pay;
 
 
+import com.alibaba.fastjson.JSONObject;
 import com.alipay.api.AlipayApiException;
 import com.alipay.api.AlipayClient;
 import com.alipay.api.domain.AlipayOpenOperationOpenbizmockBizQueryModel;
 import com.alipay.api.request.AlipayOpenOperationOpenbizmockBizQueryRequest;
 import com.alipay.api.request.AlipayTradePagePayRequest;
+import com.alipay.api.request.AlipayTradeQueryRequest;
 import com.alipay.api.response.AlipayOpenOperationOpenbizmockBizQueryResponse;
+import com.alipay.api.response.AlipayTradeQueryResponse;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -97,6 +100,7 @@ public class AliPayServiceTest {
         String form = "";
         try {
             form = alipayClient.pageExecute(alipayRequest).getBody();  //调用SDK生成表单
+//            form = alipayClient.execute(alipayRequest).getBody();  //调用SDK获取json，从json中可获取付款url，此url可生成付款二维码
         } catch (AlipayApiException e) {
             e.printStackTrace();
         }
@@ -105,6 +109,31 @@ public class AliPayServiceTest {
 //        httpResponse.getWriter().write(form); //直接将完整的表单html输出到页面
 //        httpResponse.getWriter().flush();
 //        httpResponse.getWriter().close();
+    }
+
+    /**
+     * 测试主动查询订单
+     *
+     * @precondition out_trade_no已经被创建
+     */
+    @Test
+    public void testTradeQuery() throws AlipayApiException {
+        AlipayClient alipayClient = service.generateClientByPublicKey();
+        AlipayTradeQueryRequest request = new AlipayTradeQueryRequest();
+        JSONObject bizContent = new JSONObject();
+        String outTradeNo = "T202209141569997153764720640";
+        bizContent.put("out_trade_no", outTradeNo);
+        request.setBizContent(bizContent.toString());
+        AlipayTradeQueryResponse response = alipayClient.execute(request);
+        if (response.isSuccess()) {
+            System.out.println("调用成功");
+        } else {
+            System.out.println("调用失败");
+        }
+
+        String resultStr = response.getBody();
+        JSONObject jsonObject = JSONObject.parseObject(resultStr);
+        System.out.println(jsonObject);
     }
 
     private AlipayOpenOperationOpenbizmockBizQueryRequest getRequest() {
